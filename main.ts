@@ -6,6 +6,7 @@ radio.onReceivedNumber(function (receivedNumber) {
     } else if (receivedNumber == 1 && block == 1) {
         game.addScore(1)
         block = 0
+        block_max += 1
     }
     basic.pause(500)
     view()
@@ -50,21 +51,23 @@ input.onButtonPressed(Button.A, function () {
     view()
 })
 input.onGesture(Gesture.Shake, function () {
-    basic.showLeds(`
-        . # . . .
-        . # . . .
-        . # . . .
-        . # . . .
-        . # # # .
-        `)
-    basic.pause(3000)
-    basic.showLeds(`
-        . . . . .
-        . . . . .
-        . . . . .
-        . . . . .
-        . . . . .
-        `)
+    for (let index = 0; index < 3; index++) {
+        basic.showLeds(`
+            . # . . .
+            . # . . .
+            . # . . .
+            . # . . .
+            . # # # .
+            `)
+        basic.pause(1000)
+        basic.showLeds(`
+            . . . . .
+            . . . . .
+            . . . . .
+            . . . . .
+            . . . . .
+            `)
+    }
     mag = 5
     view()
 })
@@ -115,10 +118,13 @@ input.onButtonPressed(Button.B, function () {
 })
 function view () {
     for (let plats = 0; plats <= life; plats++) {
-        led.plot(0, plats)
+        led.plot(0, plats - 1)
     }
     for (let plats = 0; plats <= mag; plats++) {
-        led.plot(4, plats)
+        led.plot(4, plats - 1)
+    }
+    for (let plats = 0; plats <= block_max; plats++) {
+        led.plot(2, plats - 1)
     }
 }
 let block_max = 0
@@ -127,8 +133,8 @@ let mag = 0
 let life = 0
 radio.setGroup(1)
 game.setLife(3)
-life = 2
-mag = 4
+life = 3
+mag = 5
 block = 0
-block_max = 3
+block_max = 4
 view()
