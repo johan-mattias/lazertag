@@ -1,55 +1,169 @@
 def on_received_number(receivedNumber):
-    global life
-    if receivedNumber == 1 and block == 0:
+    global life, block, block_max, my_team
+    if receivedNumber == 2 and block == 0 and my_team == 1 or receivedNumber == 1 and block == 0 and my_team == 2:
         game.remove_life(1)
         life += -1
-        basic.show_number(life)
-    elif receivedNumber == 1 and block == 1:
+    elif block == 1:
         game.add_score(1)
-    else:
-        pass
-    basic.show_number(life)
-radio.on_received_number(on_received_number)
-
-# shoot
-
-def on_button_pressed_a():
-    radio.send_number(1)
-    basic.show_leds("""
-        . # . . .
-        . # # # #
-        . # . . .
-        . # . . .
-        . . . . .
-        """)
+        block = 0
+        block_max += 1
     basic.pause(500)
-    basic.show_number(life)
-input.on_button_pressed(Button.A, on_button_pressed_a)
+    view()
+radio.on_received_number(on_received_number)
 
 # block
 
+def on_button_pressed_a():
+    global block, block_max
+    if block_max > 0 and shooting == 0:
+        block = 1
+        block_max += -1
+        basic.show_leds("""
+            . . . . .
+            . # # # .
+            . # # # .
+            . # # # .
+            . . . . .
+            """)
+        basic.pause(5000)
+        basic.show_leds("""
+            . . . . .
+            . . . . .
+            . . . . .
+            . . . . .
+            . . . . .
+            """)
+        block = 0
+    else:
+        basic.show_leds("""
+            # . . . #
+            . # . # .
+            . . # . .
+            . # . # .
+            # . . . #
+            """)
+        basic.show_leds("""
+            . . . . .
+            . . . . .
+            . . . . .
+            . . . . .
+            . . . . .
+            """)
+    view()
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+def on_button_pressed_ab():
+    global my_team
+    if my_team == 0:
+        my_team = 1
+    elif my_team == 1:
+        my_team = 2
+input.on_button_pressed(Button.AB, on_button_pressed_ab)
+
+# shoot
+
 def on_button_pressed_b():
-    global block
-    block = 1
-    basic.show_leds("""
-        . . . . .
-        . # # # .
-        . # # # .
-        . # # # .
-        . . . . .
-        """)
-    basic.pause(5000)
-    block = 0
-    basic.show_number(life)
+    global shooting, mag, my_team
+    if mag > 0 and block == 0 and shooting == 0:
+        my_team = 0
+        shooting = 1
+        if my_team == 1:
+            radio.send_number(1)
+        elif my_team == 2:
+            radio.send_number(2)
+        else:
+            basic.show_string("no team")
+        basic.show_leds("""
+            . . . . .
+            . . . . .
+            . . # . .
+            . . . . .
+            . . . . .
+            """)
+        basic.show_leds("""
+            . . . . .
+            . . # . .
+            . . . . .
+            . . . . .
+            . . . . .
+            """)
+        basic.show_leds("""
+            . . # . .
+            . . . . .
+            . . . . .
+            . . . . .
+            . . . . .
+            """)
+        mag += -1
+        shooting = 0
+    else:
+        basic.show_leds("""
+            . # # # .
+            . # . # .
+            . # # # .
+            . # # . .
+            . # . # .
+            """)
+        basic.show_leds("""
+            . . . . .
+            . . . . .
+            . . . . .
+            . . . . .
+            . . . . .
+            """)
+    basic.pause(500)
+    view()
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
-block = 0
-life = 0
-radio.set_group(1)
-game.set_life(3)
-life = 3
-basic.show_number(life)
+def on_gesture_shake():
+    global mag
+    if mag <= 0:
+        for index in range(3):
+            basic.show_leds("""
+                . # . . .
+                . # . . .
+                . # . . .
+                . # . . .
+                . # # # .
+                """)
+            basic.pause(1000)
+            basic.show_leds("""
+                . . . . .
+                . . . . .
+                . . . . .
+                . . . . .
+                . . . . .
+                """)
+        mag = 5
+        view()
+input.on_gesture(Gesture.SHAKE, on_gesture_shake)
 
-def on_forever():
-    pass
-basic.forever(on_forever)
+def view():
+    global plats, plats2, plats3
+    while plats <= life:
+        led.plot(0, plats - 1)
+        plats += 1
+    while plats2 <= mag:
+        led.plot(4, plats2 - 1)
+        plats2 += 1
+    while plats3 <= block_max:
+        led.plot(2, plats3 - 1)
+        plats3 += 1
+plats3 = 0
+plats2 = 0
+plats = 0
+my_team = 0
+shooting = 0
+block_max = 0
+block = 0
+mag = 0
+life = 0
+blocking = 0
+radio.set_group(128)
+life = 5
+mag = 3
+block = 0
+block_max = 3
+shooting = 0
+game.set_life(life)
+view()
