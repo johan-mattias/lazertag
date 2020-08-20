@@ -54,30 +54,12 @@ def on_button_pressed_ab():
     global my_team
     if my_team == 0:
         my_team = 1
-        basic.show_leds("""
-            . . # . .
-            . # . # .
-            . # # # .
-            . # . # .
-            . # . # .
-            """)
+        basic.show_icon(IconNames.DIAMOND)
     elif my_team == 1:
         my_team = 2
-        basic.show_leds("""
-            . # # . .
-            . # . # .
-            . # # . .
-            . # . # .
-            . # # . .
-            """)
+        basic.show_icon(IconNames.SQUARE)
     else:
-        basic.show_leds("""
-            . # # . .
-            . # . # .
-            . # # . .
-            . # . # .
-            . # # . .
-            """)
+        basic.show_icon(IconNames.SQUARE)
     basic.pause(500)
     view()
 

@@ -54,30 +54,12 @@ input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
     
     if (my_team == 0) {
         my_team = 1
-        basic.showLeds(`
-            . . # . .
-            . # . # .
-            . # # # .
-            . # . # .
-            . # . # .
-            `)
+        basic.showIcon(IconNames.Diamond)
     } else if (my_team == 1) {
         my_team = 2
-        basic.showLeds(`
-            . # # . .
-            . # . # .
-            . # # . .
-            . # . # .
-            . # # . .
-            `)
+        basic.showIcon(IconNames.Square)
     } else {
-        basic.showLeds(`
-            . # # . .
-            . # . # .
-            . # # . .
-            . # . # .
-            . # # . .
-            `)
+        basic.showIcon(IconNames.Square)
     }
     
     basic.pause(500)
