@@ -56,8 +56,35 @@ def on_button_pressed_ab():
     global my_team
     if my_team == 0:
         my_team = 1
+        basic.show_leds("""
+            . . # . .
+            . # . # .
+            . # # # .
+            . # . # .
+            . # . # .
+            """)
+        view()
     elif my_team == 1:
         my_team = 2
+        basic.show_leds("""
+            . # # . .
+            . # . # .
+            . # # . .
+            . # . # .
+            . # # . .
+            """)
+        view()
+    else:
+        basic.show_leds("""
+            # . . . #
+            . # . # .
+            . . # . .
+            . # . # .
+            # . . . #
+            """)
+        view()
+
+
 input.on_button_pressed(Button.AB, on_button_pressed_ab)
 
 # shoot
@@ -65,36 +92,64 @@ input.on_button_pressed(Button.AB, on_button_pressed_ab)
 def on_button_pressed_b():
     global shooting, mag, my_team
     if mag > 0 and block == 0 and shooting == 0:
-        my_team = 0
         shooting = 1
         if my_team == 1:
             radio.send_number(1)
+            basic.show_leds("""
+            . . . . .
+            . . . . .
+            . . # . .
+            . . . . .
+            . . . . .
+            """)
+            basic.show_leds("""
+            . . . . .
+            . . # . .
+            . . . . .
+            . . . . .
+            . . . . .
+            """)
+            basic.show_leds("""
+            . . # . .
+            . . . . .
+            . . . . .
+            . . . . .
+            . . . . .
+            """)
+            mag += -1
         elif my_team == 2:
             radio.send_number(2)
+            basic.show_leds("""
+            . . . . .
+            . . . . .
+            . . # . .
+            . . . . .
+            . . . . .
+            """)
+            basic.show_leds("""
+            . . . . .
+            . . # . .
+            . . . . .
+            . . . . .
+            . . . . .
+            """)
+            basic.show_leds("""
+            . . # . .
+            . . . . .
+            . . . . .
+            . . . . .
+            . . . . .
+            """)
+            mag += -1
         else:
-            basic.show_string("no team")
-        basic.show_leds("""
-            . . . . .
-            . . . . .
+            basic.show_leds("""
+            # . . . #
+            . # . # .
             . . # . .
-            . . . . .
-            . . . . .
+            . # . # .
+            # . . . #
             """)
-        basic.show_leds("""
-            . . . . .
-            . . # . .
-            . . . . .
-            . . . . .
-            . . . . .
-            """)
-        basic.show_leds("""
-            . . # . .
-            . . . . .
-            . . . . .
-            . . . . .
-            . . . . .
-            """)
-        mag += -1
+            view()
         shooting = 0
     else:
         basic.show_leds("""
@@ -111,7 +166,6 @@ def on_button_pressed_b():
             . . . . .
             . . . . .
             """)
-    basic.pause(500)
     view()
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
@@ -153,12 +207,6 @@ plats3 = 0
 plats2 = 0
 plats = 0
 my_team = 0
-shooting = 0
-block_max = 0
-block = 0
-mag = 0
-life = 0
-blocking = 0
 radio.set_group(128)
 life = 5
 mag = 3
