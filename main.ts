@@ -61,8 +61,6 @@ input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
             . # . # .
             . # . # .
             `)
-        basic.pause(500)
-        view()
     } else if (my_team == 1) {
         my_team = 2
         basic.showLeds(`
@@ -72,20 +70,18 @@ input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
             . # . # .
             . # # . .
             `)
-        basic.pause(500)
-        view()
     } else {
         basic.showLeds(`
-            # . . . #
+            . # # . .
             . # . # .
-            . . # . .
+            . # # . .
             . # . # .
-            # . . . #
+            . # # . .
             `)
-        basic.pause(500)
-        view()
     }
     
+    basic.pause(500)
+    view()
 })
 //  shoot
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
@@ -205,4 +201,3 @@ let life = 5
 let mag = 3
 let shooting = 0
 game.setLife(life)
-view()

@@ -61,8 +61,6 @@ def on_button_pressed_ab():
             . # . # .
             . # . # .
             """)
-        basic.pause(500)
-        view()
     elif my_team == 1:
         my_team = 2
         basic.show_leds("""
@@ -72,18 +70,16 @@ def on_button_pressed_ab():
             . # . # .
             . # # . .
             """)
-        basic.pause(500)
-        view()
     else:
         basic.show_leds("""
-            # . . . #
+            . # # . .
             . # . # .
-            . . # . .
+            . # # . .
             . # . # .
-            # . . . #
+            . # # . .
             """)
-        basic.pause(500)
-        view()
+    basic.pause(500)
+    view()
 
 
 input.on_button_pressed(Button.AB, on_button_pressed_ab)
@@ -199,4 +195,3 @@ life = 5
 mag = 3
 shooting = 0
 game.set_life(life)
-view()
