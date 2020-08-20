@@ -49,6 +49,7 @@ def on_button_pressed_a():
             . . . . .
             . . . . .
             """)
+    basic.pause(500)
     view()
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
@@ -63,6 +64,7 @@ def on_button_pressed_ab():
             . # . # .
             . # . # .
             """)
+        basic.pause(500)
         view()
     elif my_team == 1:
         my_team = 2
@@ -73,6 +75,7 @@ def on_button_pressed_ab():
             . # . # .
             . # # . .
             """)
+        basic.pause(500)
         view()
     else:
         basic.show_leds("""
@@ -82,6 +85,7 @@ def on_button_pressed_ab():
             . # . # .
             # . . . #
             """)
+        basic.pause(500)
         view()
 
 
@@ -119,27 +123,10 @@ def on_button_pressed_b():
             mag += -1
         elif my_team == 2:
             radio.send_number(2)
-            basic.show_leds("""
-            . . . . .
-            . . . . .
-            . . # . .
-            . . . . .
-            . . . . .
-            """)
-            basic.show_leds("""
-            . . . . .
-            . . # . .
-            . . . . .
-            . . . . .
-            . . . . .
-            """)
-            basic.show_leds("""
-            . . # . .
-            . . . . .
-            . . . . .
-            . . . . .
-            . . . . .
-            """)
+            basic.clear_screen()
+            led.toggle(2, 2)
+            led.toggle(2, 1)
+            led.toggle(2, 0)
             mag += -1
         else:
             basic.show_leds("""
@@ -149,6 +136,7 @@ def on_button_pressed_b():
             . # . # .
             # . . . #
             """)
+            basic.pause(500)
             view()
         shooting = 0
     else:
@@ -166,6 +154,7 @@ def on_button_pressed_b():
             . . . . .
             . . . . .
             """)
+    basic.pause(500)
     view()
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
@@ -188,12 +177,14 @@ def on_gesture_shake():
                 . . . . .
                 . . . . .
                 """)
-        mag = 5
+        mag = 3
+        basic.pause(500)
         view()
 input.on_gesture(Gesture.SHAKE, on_gesture_shake)
 
 def view():
     global plats, plats2, plats3
+    basic.clear_screen()
     while plats <= life:
         led.plot(0, plats - 1)
         plats += 1
@@ -203,6 +194,10 @@ def view():
     while plats3 <= block_max:
         led.plot(2, plats3 - 1)
         plats3 += 1
+    plats3 = 0
+    plats2 = 0
+    plats = 0
+
 plats3 = 0
 plats2 = 0
 plats = 0

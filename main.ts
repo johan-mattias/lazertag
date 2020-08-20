@@ -51,6 +51,7 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
             `)
     }
     
+    basic.pause(500)
     view()
 })
 input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
@@ -64,6 +65,7 @@ input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
             . # . # .
             . # . # .
             `)
+        basic.pause(500)
         view()
     } else if (my_team == 1) {
         my_team = 2
@@ -74,6 +76,7 @@ input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
             . # . # .
             . # # . .
             `)
+        basic.pause(500)
         view()
     } else {
         basic.showLeds(`
@@ -83,6 +86,7 @@ input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
             . # . # .
             # . . . #
             `)
+        basic.pause(500)
         view()
     }
     
@@ -118,27 +122,10 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
             mag += -1
         } else if (my_team == 2) {
             radio.sendNumber(2)
-            basic.showLeds(`
-            . . . . .
-            . . . . .
-            . . # . .
-            . . . . .
-            . . . . .
-            `)
-            basic.showLeds(`
-            . . . . .
-            . . # . .
-            . . . . .
-            . . . . .
-            . . . . .
-            `)
-            basic.showLeds(`
-            . . # . .
-            . . . . .
-            . . . . .
-            . . . . .
-            . . . . .
-            `)
+            basic.clearScreen()
+            led.toggle(2, 2)
+            led.toggle(2, 1)
+            led.toggle(2, 0)
             mag += -1
         } else {
             basic.showLeds(`
@@ -148,6 +135,7 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
             . # . # .
             # . . . #
             `)
+            basic.pause(500)
             view()
         }
         
@@ -169,6 +157,7 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
             `)
     }
     
+    basic.pause(500)
     view()
 })
 input.onGesture(Gesture.Shake, function on_gesture_shake() {
@@ -191,13 +180,15 @@ input.onGesture(Gesture.Shake, function on_gesture_shake() {
                 . . . . .
                 `)
         }
-        mag = 5
+        mag = 3
+        basic.pause(500)
         view()
     }
     
 })
 function view() {
     
+    basic.clearScreen()
     while (plats <= life) {
         led.plot(0, plats - 1)
         plats += 1
@@ -210,6 +201,9 @@ function view() {
         led.plot(2, plats3 - 1)
         plats3 += 1
     }
+    plats3 = 0
+    plats2 = 0
+    plats = 0
 }
 
 let plats3 = 0
