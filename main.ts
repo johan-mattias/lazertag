@@ -1,59 +1,55 @@
 radio.onReceivedNumber(function on_received_number(receivedNumber: number) {
     
-    if (receivedNumber == 2 && block == 0 && my_team == 1 || receivedNumber == 1 && block == 0 && my_team == 2) {
+    if (receivedNumber == 2 && my_team == 1 || receivedNumber == 1 && my_team == 2) {
         game.removeLife(1)
         life += -1
-    } else if (block == 1) {
-        game.addScore(1)
-        block = 0
-        block_max += 1
     }
     
     basic.pause(500)
     view()
 })
 //  block
-input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    
-    if (block_max > 0 && shooting == 0) {
+/**  def on_button_pressed_a():
+    global block, block_max
+    if block_max > 0 and shooting == 0:
         block = 1
         block_max += -1
-        basic.showLeds(`
+        basic.show_leds("""
             . . . . .
             . # # # .
             . # # # .
             . # # # .
             . . . . .
-            `)
+            """)
         basic.pause(5000)
-        basic.showLeds(`
+        basic.show_leds("""
             . . . . .
             . . . . .
             . . . . .
             . . . . .
             . . . . .
-            `)
+            """)
         block = 0
-    } else {
-        basic.showLeds(`
+    else:
+        basic.show_leds("""
             # . . . #
             . # . # .
             . . # . .
             . # . # .
             # . . . #
-            `)
-        basic.showLeds(`
+            """)
+        basic.show_leds("""
             . . . . .
             . . . . .
             . . . . .
             . . . . .
             . . . . .
-            `)
-    }
-    
+            """)
     basic.pause(500)
     view()
-})
+input.on_button_pressed(Button.A, on_button_pressed_a)
+
+ */
 input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
     
     if (my_team == 0) {
@@ -94,7 +90,7 @@ input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
 //  shoot
 input.onButtonPressed(Button.B, function on_button_pressed_b() {
     
-    if (mag > 0 && block == 0 && shooting == 0) {
+    if (mag > 0 && shooting == 0) {
         shooting = 1
         if (my_team == 1) {
             radio.sendNumber(1)
@@ -197,24 +193,16 @@ function view() {
         led.plot(4, plats2 - 1)
         plats2 += 1
     }
-    while (plats3 <= block_max) {
-        led.plot(2, plats3 - 1)
-        plats3 += 1
-    }
-    plats3 = 0
     plats2 = 0
     plats = 0
 }
 
-let plats3 = 0
 let plats2 = 0
 let plats = 0
 let my_team = 0
 radio.setGroup(128)
 let life = 5
 let mag = 3
-let block = 0
-let block_max = 3
 let shooting = 0
 game.setLife(life)
 view()
